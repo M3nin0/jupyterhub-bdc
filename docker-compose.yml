@@ -20,7 +20,7 @@ services:
       - DOCKER_NOTEBOOK_DIR=${DOCKER_NOTEBOOK_DIR}
       - DATA_VOLUME_CONTAINER=${DATA_VOLUME_CONTAINER}
       - DOCKER_JUPYTER_CONTAINER=jupyterlab_img
-      - DOCKER_NETWORK_NAME=${COMPOSE_PROJECT_NAME}_default
+      - DOCKER_NETWORK_NAME=jupyterhub_bdc-jupyter-net
       - HUB_IP=jupyterhub
       - HOST
     env_file:
