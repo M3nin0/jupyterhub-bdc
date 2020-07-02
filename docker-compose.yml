@@ -28,13 +28,19 @@ services:
     ports:
       - "8000:8000"
     restart: on-failure
+    networks:
+      - bdc-jupyter-net
 
   jupyterlab:
     build: jupyterlab
     image: jupyterlab_img
     container_name: jupyterlab-build
-    network_mode: none
+    networks:
+      - bdc-jupyter-net
     command: echo
 
 volumes:
   jupyterhub_data:
+
+networks:
+  bdc-jupyter-net:
