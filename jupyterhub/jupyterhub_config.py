@@ -29,7 +29,7 @@ notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan'
 c.DockerSpawner.notebook_dir = notebook_dir
 ## ToDo: Define persistence per user
 # c.DockerSpawner.volumes = { "jupyterhub-user-{username}": notebook_dir }
-c.DockerSpawner.volumes = { "/data": {"bind": '/home/jovyan/work/shared', "mode": "ro"} }
+c.DockerSpawner.volumes = { os.environ['DATA_VOLUME_CONTAINER']: {"bind": '/home/jovyan/work/shared', "mode": "ro"} }
 
 # Server usage
 c.Spawner.cpu_limit = 1

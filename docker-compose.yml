@@ -13,11 +13,12 @@ services:
         source: jupyterhub_data
         target: "/srv/jupyterhub"
       - type: bind
-        source: "/data"
+        source: ${DATA_VOLUME_CONTAINER}
         target: "/data"
         read_only: true
     environment:
       - DOCKER_NOTEBOOK_DIR=${DOCKER_NOTEBOOK_DIR}
+      - DATA_VOLUME_CONTAINER=${DATA_VOLUME_CONTAINER}
       - DOCKER_JUPYTER_CONTAINER=jupyterlab_img
       - DOCKER_NETWORK_NAME=${COMPOSE_PROJECT_NAME}_default
       - HUB_IP=jupyterhub
