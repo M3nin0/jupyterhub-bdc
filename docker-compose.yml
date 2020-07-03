@@ -12,8 +12,13 @@ services:
       - type: volume
         source: jupyterhub_data
         target: "/srv/jupyterhub"
+      - type: bind
+        source: ${USERS_BASE_DIR_SOURCE}
+        target: ${USERS_BASE_DIR_TARGET}
     environment:
       - DOCKER_NOTEBOOK_DIR=${DOCKER_NOTEBOOK_DIR}
+      - USERS_BASE_DIR_SOURCE=${USERS_BASE_DIR_SOURCE}
+      - USERS_BASE_DIR_TARGET=${USERS_BASE_DIR_TARGET}
       - DOCKER_NETWORK_NAME=jupyterhub_bdc-jupyter-net
       - HUB_IP=jupyterhub
       - DATA_SOURCE=${DATA_SOURCE}
@@ -44,20 +49,7 @@ services:
     networks:
         - bdc-jupyter-net
     command: echo
-#    volumes:
-#      - type: bind
-#        source: ${DATA_SOURCE}
-#        target: ${DATA_TARGET}
-#        read_only: true
-#      - type: bind
-#        source: ${EXAMPLES_SOURCE}
-#        target: ${EXAMPLES_TARGET}
-#        read_only: true
-#    environment:
-#      - DATA_SOURCE=${DATA_SOURCE}
-#      - DATA_TARGET=${DATA_TARGET}
-#      - EXAMPLES_SOURCE=${EXAMPLES_SOURCE}
-#      - EXAMPLES_TARGET=${EXAMPLES_TARGET}
+
 
 volumes:
   jupyterhub_data:
