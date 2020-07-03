@@ -1,8 +1,4 @@
-# FROM jupyter/scipy-notebook:137a295ff71b
 FROM jupyter/datascience-notebook
-
-COPY env.R env.R
-COPY odc.sh odc.sh
 
 USER root
 RUN apt-get update && \
@@ -12,15 +8,15 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+COPY odc.sh odc.sh
+
 RUN ./odc.sh
 
-USER $NB_UID
 COPY .datacube.conf .datacube.conf
+RUN chown $NB_UID:users .datacube.conf
 
-RUN conda install --yes \
-    'nb_conda' \
-    'r-units' \
-    'r-rgdal' \
-    'r-sf'
+RUN mkdir /gfs
 
-RUN Rscript env.R
+USER $NB_UID
+
+RUN conda install --yes nb_conda

@@ -2,8 +2,8 @@ version: '3.2'
 
 services:
   jupyterhub:
-    build: jupyterhub
-    image: jupyterhub_img
+    build: ./docker/jupyterhub
+    image: jupyterhub:1.1
     container_name: jupyterhub
     volumes:
       - type: bind
@@ -12,16 +12,14 @@ services:
       - type: volume
         source: jupyterhub_data
         target: "/srv/jupyterhub"
-      - type: bind
-        source: ${DATA_VOLUME_CONTAINER}
-        target: "/data"
-        read_only: true
     environment:
       - DOCKER_NOTEBOOK_DIR=${DOCKER_NOTEBOOK_DIR}
-      - DATA_VOLUME_CONTAINER=${DATA_VOLUME_CONTAINER}
-      - DOCKER_JUPYTER_CONTAINER=jupyterlab_img
       - DOCKER_NETWORK_NAME=jupyterhub_bdc-jupyter-net
       - HUB_IP=jupyterhub
+      - DATA_SOURCE=${DATA_SOURCE}
+      - DATA_TARGET=${DATA_TARGET}
+      - EXAMPLES_SOURCE=${EXAMPLES_SOURCE}
+      - EXAMPLES_TARGET=${EXAMPLES_TARGET}
       - HOST
     env_file:
       - .env
@@ -31,13 +29,35 @@ services:
     networks:
       - bdc-jupyter-net
 
-  jupyterlab:
-    build: jupyterlab
-    image: jupyterlab_img
-    container_name: jupyterlab-build
+#  r-sits:
+#    build: ./docker/r-sits
+#    image: r-sits:1.0
+#    container_name: jupyterlab_r-sits
+#    networks:
+#      - bdc-jupyter-net
+#    command: echo
+
+  odc:
+    build: ./docker/odc/1.8
+    image: odc:1.8
+    container_name: jupyterlab_odc-1.8
     networks:
-      - bdc-jupyter-net
+        - bdc-jupyter-net
     command: echo
+#    volumes:
+#      - type: bind
+#        source: ${DATA_SOURCE}
+#        target: ${DATA_TARGET}
+#        read_only: true
+#      - type: bind
+#        source: ${EXAMPLES_SOURCE}
+#        target: ${EXAMPLES_TARGET}
+#        read_only: true
+#    environment:
+#      - DATA_SOURCE=${DATA_SOURCE}
+#      - DATA_TARGET=${DATA_TARGET}
+#      - EXAMPLES_SOURCE=${EXAMPLES_SOURCE}
+#      - EXAMPLES_TARGET=${EXAMPLES_TARGET}
 
 volumes:
   jupyterhub_data:

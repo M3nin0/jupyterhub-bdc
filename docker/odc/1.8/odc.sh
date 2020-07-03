@@ -10,3 +10,9 @@ cd datacube-core
 pip install --upgrade -e .
 
 pre-commit install
+
+conda install --yes gdal geopandas matplotlib ipyleaflet
+
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+jupyter labextension install jupyter-leaflet
+
