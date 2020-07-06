@@ -4,17 +4,8 @@ FROM jupyter/datascience-notebook
 COPY env.R env.R
 
 USER root
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    build-essential \ 
-    libudunits2-dev \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN conda install -c conda-forge r-sf --yes
+RUN conda install -c conda-forge proj-data --yes
+RUN Rscript env.R
 
 USER $NB_UID
-RUN conda install --yes \
-    'r-units' \
-    'r-rgdal' \
-    'r-sf'
-
-RUN Rscript env.R
